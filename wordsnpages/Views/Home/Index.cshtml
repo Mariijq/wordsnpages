@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Product>
+@{
+    var categoryId = Context.Request.Query["categoryId"];
+    var action = "text-secondary"; 
+    var thriller = "text-primary"; 
+    var romance = "text-primary";
+    var mystery = "text-primary"; 
+    var fantasy = "text-primary"; 
+
+    switch (categoryId)
+    {
+        case "inprocess":
+            action = "active text-white bg-primary";
+            break;
+        case "pending":
+            thriller = "active text-white bg-primary";
+            break;
+        case "completed":
+            romance = "active text-white bg-primary";
+            break;
+        case "approved":
+            mystery = "active text-white bg-primary";
+            break;
+        case "all":
+            fantasy = "active text-white bg-primary";
+            break;
+        default:
+            break;
+    }
+}
+
+<div class="card-header bg-outline-secondary bg-gradient nl-0 py-3">
+<div class="row">
+    <div class="col-12 text-center">
+            <h2 class="text-secondary py-2"><i>WELCOME to our bookstore</i></h2>
+            <img src="/images/logo.png" style="width:300px" />
+        </div>
+</div>
+    </div>
+<div class="card-body p-4">
+    <div class="d-flex justify-content-between pb-5 pt-2">
+        <span> </span>
+        <ul class="list-group list-group-horizontal-sm">
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="action">
+            <li class="list-group-item ">Action</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="thriller">
+            <li class="list-group-item  ">Thriller</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="romance">
+            <li class="list-group-item  ">Romance</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="mystery">
+            <li class="list-group-item  ">Mystery</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="fantasy">
+            <li class="list-group-item  ">Fantasy</li>
+            </a>
+        </ul>
+    </div>
+<div class="row pb-3">
+
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                        <img src="@product.ImageURL" class="card-img-top rounded" />
+                        <div class="card-body pb-0">
+                            <div class="pl-1"> 
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Title </p>
+                                <p class="card-title text-warning text-center">by <b> @product.Author</b></p>
+                            </div>
+                            <div class="pl-1">
+                                <p class=" text-dark opacity-75 text-center mb-0">
+                                    List Price: 
+                                    <span class="text-decoration-line-through">
+                                        @product.ListPrice.ToString("c")
+                                    </span> 
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class=" text-dark opacity-75 text-center">As low as: <span>@product.Price100.ToString("c")</span> </p>
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-action="Details" 
+                            asp-route-productId="@product.Id"
+                            class="btn btn-primary bg-gradient border-0 form-control">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
